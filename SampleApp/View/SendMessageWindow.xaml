@@ -1,0 +1,43 @@
+﻿<Window x:Class="SampleApp.View.SendMessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:cn="clr-namespace:SampleApp.Converters"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Title="Enviar Mensagem" Height="265" Width="400">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <cn:PhoneConverter x:Key="ToPhoneConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Width="110" MaxLength="19" Text="{Binding Sender, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ToPhoneConverter}}" PreviewTextInput="OnPhoneEntered" md:HintAssist.Hint="Remetente" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="37"/>
+        <TextBox Grid.Row="1" Width="110" MaxLength="19" Text="{Binding Receiver, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ToPhoneConverter}}" PreviewTextInput="OnPhoneEntered" md:HintAssist.Hint="Destinatário" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="37"/>
+        <TextBox Grid.Row="2" MaxLength="155" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignTextAreaTextBox}" VerticalAlignment="Top" Height="106" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" md:HintAssist.Hint="Mensagem" Margin="5"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Margin="5" IsDefault="True" Command="{Binding SendCommand}">
+                <md:PackIcon Kind="Send"/>
+            </Button>
+            <Button VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Margin="5" IsCancel="True" Click="OnCloseClick">
+                <md:PackIcon Kind="Cancel"/>
+            </Button>
+        </StackPanel>
+        
+    </Grid>
+</Window>
